@@ -34,7 +34,7 @@ public class CovidThread extends Thread{
                     }
                 }
                 List<Result> results = testReader.readResultsFromFile(resultFile);
-                System.out.println("HH");
+                System.out.println("Archivo procesado.");
                 for (Result result : results) {
                     resultAnalyzer.addResult(result);
                 }
