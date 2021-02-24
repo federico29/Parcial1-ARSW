@@ -106,17 +106,15 @@ public class CovidAnalyzerTool {
         AtomicInteger count = covidAnalyzerTool.getAmountOfFilesProcessed();
         Integer cont = 0;
 
-        System.out.println(resultFileList.size());
-        System.out.println(resultFileList.size() % numberOfThreads != 0);
 
         if (resultFileList.size() % numberOfThreads != 0) {
             for (int i = 0; i < numberOfThreads - 1; i++) {
                 List<File> filesDivision = covidAnalyzerTool.divideFiles(resultFileList, cont, cont + numberOfThreads);
-                System.out.println(cont + "---" + (cont + numberOfThreads - 1));
+                //System.out.println(cont + "---" + (cont + numberOfThreads - 1));
                 threads.add(new CovidThread(filesDivision, count));
                 cont = cont + numberOfThreads;
             }
-            System.out.println(cont + "---" + (resultFileList.size() - 1));
+            //System.out.println(cont + "---" + (resultFileList.size() - 1));
             List<File> filesDivision = covidAnalyzerTool.divideFiles(resultFileList, cont, resultFileList.size());
             threads.add(new CovidThread(filesDivision, count));
         } else {
