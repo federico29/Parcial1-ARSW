@@ -2,6 +2,7 @@ package eci.arsw.covidanalyzer;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CovidThread extends Thread{
@@ -24,14 +25,14 @@ public class CovidThread extends Thread{
     @Override
     public void run() {
         synchronized (this) {
-            while (suspender) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
             for (File resultFile : this.files) {
+                while (suspender) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 List<Result> results = testReader.readResultsFromFile(resultFile);
                 System.out.println("HH");
                 for (Result result : results) {
@@ -49,5 +50,9 @@ public class CovidThread extends Thread{
     synchronized void renaudarHilo(){
         suspender=false;
         notify();
+    }
+
+    public Set<Result> getPositivePeople() {
+        return resultAnalyzer.listOfPositivePeople();
     }
 }
